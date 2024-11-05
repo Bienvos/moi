@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    {%load static%}
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRI</title>
+    <script src="{% static 'univ\js\jquery.js'%}"></script>
+
+
+    <link rel="stylesheet" href="{% static 'univ\css\bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'univ\css\style.css' %}">
+</head>
+<body>
+
+    <div class="contenair">
+      <h1>{{number}}</h1>
+
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{%url 'tester'%}">UDSN</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Cours</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Programme</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Matiere
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Cryptograthie</a></li>
+                  <li><a class="dropdown-item" href="#">Cryptanalyse</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Securité Réseau</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <!-- <a  class="nav-link disabled" aria-disabled="true"></a> -->
+                <button id="pannier" id="Paniers" type="button" class="btn btn-info text-white" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Bienvenue">
+                  Panier(0)
+                </button>
+              </li>
+              
+              {% if user.is_authenticated %}
+              <li><a class="text text-primary "  style="font-weight: bold; margin-left: 30px; text-decoration: none; font-size:20px;"   href="{% url 'logout'%}">Déconnexion</a></li>
+              <li class="text text-center text text-warning" style="margin-left: 90px; font-weight: bold; font-size: 20px;"><img src="{% static 'univ/person_4.gif' %}" alt=""> {{request.user.username}} connecté</li>
+              {% endif %}
+            </ul>
+            
+            {% if user.is_authenticated %}
+              
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" name ="recherche" type="search" placeholder="Recherchez un Etudiant" aria-label="Search">
+              <button class="btn btn-outline-primary" type="submit">Recherche</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+        
+    
+        
+        
+        <!-- <a class="btn btn-primary m-3" href="{% url 'login'%}">Login</a>
+        <a class="btn btn-danger m-3" href="{% url 'registre'%}">Add User</a>
+        <a class="btn btn-btn btn-success" href="/bloc">Fruits</a> -->
+        
+        
+        
+        <!--{% include 'univ\liste.html'%}
+     <h3>{{nom|lower}}</h3>
+        <h3>{{prenom|lower}}</h3>
+        {% for item in age %}
+        <h2>{{item|add:"100"}}</h2>
+        {%if item == 3 %}
+        <h3>ce nombre represente les couleurs de notre pays</h3>
+        {% else %}
+        <h4> never give up</h4>
+        {% endif %}
+        {% endfor %} -->
+    
+         
+        {% block content%} {% endblock%}
+        
+        
+    
+      
+      <script src="{% static 'univ\js\bootstrap.js'%}"></script>
+      <script src="{% static 'univ\js\jquery.js'%}"></script>
+      <script src="{% static 'univ\js\popper.js'%}"></script> 
+    
+      
+      {% block js %}
+    
+      
+        
+      {% endblock js %}
+    </div>
+    
+
+      
+    
+</body>
+</html>

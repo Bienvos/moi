@@ -1,0 +1,151 @@
+{% extends 'univ/base.html' %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+       <ul class="list-group" id="produit">
+        
+       </ul> 
+
+            
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="hidden" name="element" id="commande">
+                </div>
+
+                <div class="form-group col-md-6" >
+                    <label for="nom">Nom</label>
+                    <input type="text" name="nom" required id="nom" class="form-control" placeholder="Nom et Prénom du client">
+                </div>
+                <div class="form-group col-md-4" >
+                    <label for="Email">Email</label>
+                    <input type="email" name="Email" required id="Email" class="form-control" placeholder="Email du Client">
+                </div>
+                <div class="form-group col-md-2" >
+                    <label for="Phone">Téléphone</label>
+                    <input type="number" name="Phone" required id="Phone" class="form-control" placeholder=" Numero Telephone">
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="sexe">sexe</label>
+                    <select name="sexe" class="form-control" required id="sexe">
+                        <option>Choisisez le sexe</option>
+                        <option value="M">Masculin</option>
+                        <option value="F">Feminin</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="Age">Age</label>
+                    <select name="Age" class="form-control" required id="Age">
+                        <option>Tranche Age</option>
+                        <option value="0-15">0-15</option>
+                        <option value="15-30">15-30</option>
+                        <option value="30 et plus ...">30 et plus ...</option>
+                    </select>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="Adresse">Adresse</label>
+                    <input type="text" name="Adresse" required id="Adresse" class="form-control" placeholder="Adresse du client...">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group ">
+                    <label for="quartier">quartier</label>
+                    <input type="text" name="quartier" required id="quartier" class="form-control" placeholder=" quartier du client">
+
+                </div>
+
+                
+            </div>
+
+            <br><br>
+            <div class="form-group col-md-2" >
+                <label for="total">Somme total a payer</label>
+                <input type="ReadOnly" name="total"  id="total" class=" bg-dark text-warning form-control" >
+            </div>
+
+            
+
+            <br><br>
+
+
+            <div class="row">
+
+                <div class="col-md-6"><button type="submit" id="com" class=" form-group btn btn-success">Commander</button></div>
+
+            </div>
+        </form>
+        
+
+    </div>
+</div>
+    
+{% endblock  %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+
+    if(localStorage.getItem('panier')==null){
+        var panier = {};
+    }else{
+        panier = JSON.parse(localStorage.getItem('panier'));
+    }
+
+    var nb =0;
+    var total =0;
+
+    for(item in panier){
+        let nom = panier[item][1];
+        let quantite = panier[item][0];
+        let prix = panier[item][2];
+        nb +=quantite;
+        total +=prix;
+        let voir =`<li class="list-group-item ">
+          <span>${quantite}</span> ${nom} <span></span> <span></span> <span></span> <span></span> <span class="text text-warning ">${prix} <span>FCFA</span></span>
+            
+        </li>`;
+        $("#produit").append(voir);
+    }
+
+    let items =`<li class="list-group-item ">
+        <b class="bg bg-warnig">QUANTITES ET PRIX TOTAL:</b>
+          <span></span>  <span></span>  <span class="  bg-primary  text-white"> ${nb}</span> <span></span> <span></span> <span class="bg-danger text-white ">${total} <span>FCFA</span></span>
+            
+        </li>`;
+        $("#produit").append(items);
+
+    $('#commande').val(JSON.stringify(localStorage.getItem('panier')));
+
+    $('#total').val(total+" "+"FCFA");
+
+
+    $(document).on('click','#com', function () {
+
+        localStorage.clear();
+    });
+
+   
+    
+</script>
+ 
+{% endblock js %}
+    
+    

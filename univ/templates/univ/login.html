@@ -1,0 +1,22 @@
+{% extends 'univ/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<center>
+<form     method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <img src="{% static 'univ\person_2.gif'%}" alt="pas d'image"> <input type="text" name="username" id="username" placeholder="Enter votre nom">
+    <br><br>
+    <img src="{% static 'univ\lock.gif'%}" alt="pas d'image"> <input type="password" name="password" id="password" placeholder="Mot de Passe">
+    <br><br>
+    
+
+    <button type="submit" >Valider</button> <span style="color: dark;">Vous n'avez pas de Compte? click </span>
+    <button type="submit"> <a href="{% url 'registre'%}">ici</a></button> 
+</form>
+</center>
+
+    
+{% endblock  %}
+    

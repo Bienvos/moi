@@ -1,0 +1,15 @@
+{% extends 'univ\base.html'%}
+
+
+{%block content %}
+<h2 style="color: blue;"> {{message}} </h2>
+<center>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ moi.as_p}}
+
+    <button type="submit" class="btn btn-success">modifier</button>
+    <a href="{% url 'tester' %} "><button type="button" class="btn btn-primary"> <span class=" text-white">retour</span></button></a>
+</form>
+</center>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'univ/base.html'%}
+
+{% block content%}
+
+<center>
+<form  action="{% url 'securite'%}"  method="post" enctype="multipart/form-data" >
+    {% csrf_token%}
+
+    {{ form.as_p}}
+
+    <button type="submit"> save</button>
+
+</form>
+</center>
+
+
+
+{%endblock%}

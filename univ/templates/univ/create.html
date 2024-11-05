@@ -1,0 +1,15 @@
+
+
+{% extends 'univ/base.html'%}
+
+{%block content %}
+<h2 style=> {{message}} </h2>
+<center>
+<form action="{% url 'formulaire'%}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ moi.as_p}}
+
+    <button type="submit">Valider</button>
+</form>
+</center>
+{% endblock %}

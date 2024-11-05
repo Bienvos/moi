@@ -1,0 +1,126 @@
+{% extends 'univ/base.html' %}
+
+
+
+    
+{% block content %}
+
+  {% if user.is_authenticated %}
+      
+    <h1 class="text-center text-primary"> Bienvenue sur le site de la SRI !</h1>
+      
+    <div class="container" style="margin: 0; padding: 0; width: 100%">
+      
+        {% for item in etudiant %}
+        <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+          <div class="card" style="width: 20 px; heigth:10 px;">
+               {% if item.image%}
+               <img src="{{item.image.url}}" class="card-img-top" style="max-height: 10 px; overflow: hidden;" alt="{{item.nom}}">
+               {%else%}
+                <h6> pas d'images</h6>
+                {% endif %}
+              <div class="card-body" style="max-height: 5 px; overflow: hidden;">
+                <h5 id ="aa{{item.id}}"class="card-title">{{item.nom |truncatechars:20}}</h5>
+                <h6 class="card-text">{{item.prenom |truncatechars:20}}</h6>
+                <p class="card-text">{{item.filiere |truncatechars:20}}</p>
+                <p class="card-text">{{item.tel |truncatechars:20}}</p>
+                <p class="card-text">{{item.sexe |truncatechars:20}}</p>
+               <span>prix</span><p class="text text-dark bg-warning  card-text" id="prix{{item.id}}">{{item.prix |truncatechars:20}}</p>
+        
+                <a href="{% url 'updata' item.id%}" class=" d-inline p-2  text-light btn btn-primary" >Modifier</a>
+                
+                {% comment %} <form action="{% url 'supprime' item.id%}" method="POST" class="d-inline "> {% csrf_token %}
+                  <input type="submit" class=" text-light btn btn-primary"  value="Supprimer">
+                </form> {% endcomment %}
+
+                <button id="{{item.id}}"  class="d-inline  bien btn btn-success">Acheter</button>
+              </div>
+            </div>
+           
+        </div>
+        
+        {% endfor %}
+        {% endif %}
+  
+      
+    </div>
+        
+    <div class="row mt-3">
+      <div class="col-mt-3 offset-md-4">
+         <ul class="pagination">
+          {% if etudiant.has_previous %}
+             <li class="page-item">
+               <a  class="page-link" href="?page={{etudiant.previous_page_number}}"> Precedent</a>
+             </li>
+          {% endif %}
+          
+          <li class ="page-item active">
+            <a  class="page-link"   href="?page={{etudiant.number}}">{{etudiant.number}}</a>
+          </li>
+
+
+          {% if etudiant.has_next %}
+             <li class="page-item">
+               <a class="page-link" href="?page={{etudiant.next_page_number}}">Suivant</a>
+             </li>
+          {% endif %}
+
+
+         </ul>
+      </div>
+
+      <button class=" btn btn-primary "><a  style="text-decoration: none;" class=" text text-white"  href="{% url 'reservation'%}">voir mes Reservations</a></button>
+    
+    </div>
+
+
+
+    
+{% endblock %}
+
+    
+
+
+{% block js %}
+
+<script type="text/javascript">
+      
+    if(localStorage.getItem('panier') == null){
+      var panier = {};
+    }else {
+      panier = JSON.parse(localStorage.getItem('panier'));
+    }
+    $(document).on('click','.bien', function(){
+      var item_id = this.id.toString();
+      if(panier[item_id] != undefined){
+        quantite = panier[item_id][0]+1;
+        panier[item_id][0] = quantite;
+        panier[item_id][2] += parseFloat(document.getElementById('prix'+item_id).innerHTML);
+        
+      }
+      else{
+        quantite=1;
+        var prix = parseFloat(document.getElementById('prix'+item_id).innerHTML);
+        var nom = document.getElementById('aa'+item_id).innerHTML;
+        panier[item_id] = [quantite,nom,prix];
+      }
+      console.log(panier);
+
+      localStorage.setItem('panier',JSON.stringify(panier));
+
+      document.getElementById('pannier').innerHTML = "Panier(" +Object.keys(panier).length+")";
+      
+      
+    });
+    
+    $(function () {
+
+      $('[data-bs-toggle="popover"]').popover();
+      
+    })
+    
+    
+  </script>
+    
+{% endblock js %}
+    
